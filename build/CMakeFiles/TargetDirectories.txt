@@ -1,3 +1,0 @@
-/home/donil/Документы/Blocks2d/build/CMakeFiles/Blocks2d.dir
-/home/donil/Документы/Blocks2d/build/CMakeFiles/edit_cache.dir
-/home/donil/Документы/Blocks2d/build/CMakeFiles/rebuild_cache.dir
