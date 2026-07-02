@@ -1,11 +1,11 @@
 #pragma once
-
 #include <cstdint>
 
 enum class BlockType : uint8_t {
     Air = 0, 
     Grass, 
     Loam, 
+    Grus,
     Water_bearing_gravel,
     Limestone,
     Basaltite,

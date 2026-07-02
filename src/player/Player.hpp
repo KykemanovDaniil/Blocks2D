@@ -1,15 +1,30 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-struct Player {
-    sf::Vector2f position = {0.0f, 0.0f};
-    float speed = 5.0f;
+class Player {
+public:
+    Player();
+
+    void setPosition(const sf::Vector2f position) noexcept {
+        m_position = position;
+    }
+
+    sf::Vector2f getPosition() const noexcept {
+        return m_position;
+    }
+
+    void update(float deltaTime) noexcept;
     
-    float playerH = 55.0f;
-    float playerW = 25.0f;
+    void draw(sf::RenderTarget& target) const {
+        m_shape.setPosition(m_position);
+        target.draw(m_shape);
+    }
+private:
+    sf::Vector2f m_position{0.0f, 0.0f};
+    float m_speed{300.0f};
 
-    void setPosition(const sf::Vector2f& position);
-
-    void movementPlayer();
-    void drawPlayer(sf::RenderWindow& window);
+    mutable sf::RectangleShape m_shape;
+    
+    static constexpr float HEIGHT = 55.0f;
+    static constexpr float WIDTH = 25.0f;
 };

@@ -1,34 +1,26 @@
 #include <SFML/Graphics.hpp>
 #include "player/Player.hpp"
-#include "math/random/Random.hpp"
+#include <cmath>
 
-void Player::setPosition(const sf::Vector2f& newPosition) {
-    position = newPosition;
+Player::Player() {
+    m_shape.setSize({WIDTH, HEIGHT});
+    m_shape.setOrigin({WIDTH / 2.0f, HEIGHT / 2.0f});
+    m_shape.setFillColor(sf::Color::Red);
 }
 
-void Player::movementPlayer() {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space)) {
-        position.y -= speed;
+void Player::update(float deltaTime) noexcept {
+    sf::Vector2f direction{0.0f, 0.0f};
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W)) direction.y -= 1.0f;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S)) direction.y += 1.0f;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) direction.x -= 1.0f;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) direction.x += 1.0f;
+
+    float length = std::hypot(direction.x, direction.y);
+
+    if (length > 0.0f) {
+        direction /= length;
     }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift)) {
-        position.y += speed;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A)) {
-        position.x -= speed;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D)) {
-        position.x += speed;
-    }
-}
 
-void Player::drawPlayer(sf::RenderWindow& window) {
-    sf::RectangleShape playerTexture(sf::Vector2f{playerW, playerH});
-
-    playerTexture.setOrigin({playerW / 2.0f, playerH / 2.0f});
-
-    playerTexture.setFillColor(sf::Color::Red);
-
-    playerTexture.setPosition(position);
-
-    window.draw(playerTexture);
+    m_position += direction * m_speed * deltaTime;
 }

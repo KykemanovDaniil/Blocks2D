@@ -1,29 +1,14 @@
 #include <SFML/Graphics.hpp>
 #include "camera/Camera.hpp"
+#include <cmath>
 
-void Camera::setZoom(float zoom) {
-    cameraView.zoom(zoom);
-}
+void Camera::updateLerp(sf::Vector2f target, float deltaTime) noexcept {
+    sf::Vector2f currentCenter = m_view.getCenter();
 
-void Camera::setLerp(float newLerp) {
-    lerp = newLerp;
-}
+    float blend = 1.0f - std::exp(-m_lerp * deltaTime);
 
-void Camera::setCenter(const sf::Vector2f& center) {
-    cameraView.setCenter(center);
-}
+    float newX = currentCenter.x + (target.x - currentCenter.x) * blend;
+    float newY = currentCenter.y + (target.y - currentCenter.y) * blend;
 
-void Camera::setSize(const sf::Vector2f& size) {
-    cameraView.setSize(size);
-}
-
-void Camera::setView(sf::RenderWindow& window) {
-    window.setView(cameraView);
-}
-
-void Camera::updateLerp(const sf::Vector2f& target) {
-    position.x = position.x + (target.x - position.x) * lerp;
-    position.y = position.y + (target.y - position.y) * lerp;
-
-    cameraView.setCenter(position);
+    m_view.setCenter({newX, newY});
 }
