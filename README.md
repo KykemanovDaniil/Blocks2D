@@ -1,5 +1,5 @@
 # Blocks2D
-2D RPG with sandbox elements
+This is my pet project to create a 2D block engine.
 
 ## Tech Stack
 * **Language:** C++ 23
