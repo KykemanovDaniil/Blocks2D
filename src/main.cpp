@@ -1,6 +1,7 @@
 #include <iostream>
 #include <SFML/Graphics.hpp>
 #include <print>
+#include <optional>
 
 #include "src/core/Config.hpp"
 
@@ -42,19 +43,20 @@ int main() {
             std::println("FPS: {}", currentFps);
         }
 
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
+        while (const std::optional<sf::Event> event = window.pollEvent()) {
+            
+            if (event->is<sf::Event::Closed>()) {
                 window.close();
+            }
 
-            if (event.type == sf::Event::KeyPressed) {
-                if (event.key.code == sf::Keyboard::F8) {
+            if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+                if (keyPressed->code == sf::Keyboard::Key::F8) {
                     window.close();
                 }
-                if (event.key.code == sf::Keyboard::I) {
+                if (keyPressed->code == sf::Keyboard::Key::I) {
                     camera.setZoom(camera.getZoom() + 0.1f);
                 }
-                if (event.key.code == sf::Keyboard::O) {
+                if (keyPressed->code == sf::Keyboard::Key::O) {
                     camera.setZoom(camera.getZoom() - 0.1f);
                 }
             }
