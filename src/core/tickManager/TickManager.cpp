@@ -24,3 +24,7 @@ bool TickManager::checkTick() noexcept {
     }
     return false;
 }
+
+float TickManager::getInterpolationFactor() const noexcept { 
+    return m_accumulator / TIME_PER_TICK; 
+}

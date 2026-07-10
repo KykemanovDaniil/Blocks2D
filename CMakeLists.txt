@@ -8,9 +8,24 @@ if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang
     add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
-set(SFML_STATIC_LIBRARIES ON)
 
-find_package(SFML 3.1 REQUIRED COMPONENTS Graphics Window System)
+
+include(FetchContent)
+
+FetchContent_Declare(
+    SFML
+    GIT_REPOSITORY https://github.com/sfml/sfml
+    GIT_TAG        3.1.0
+)
+
+set(SFML_BUILD_EXAMPLES OFF CACHE INTERNAL "")
+set(SFML_BUILD_DOC OFF CACHE INTERNAL "")
+set(SFML_BUILD_NETWORK OFF CACHE INTERNAL "")
+
+FetchContent_MakeAvailable(SFML)
+
+
+
 find_package(OpenGL REQUIRED)
 
 file(GLOB_RECURSE PROJECT_SOURCES CONFIGURE_DEPENDS
@@ -23,7 +38,14 @@ add_executable(Blocks2d ${PROJECT_SOURCES})
 
 target_include_directories(Blocks2d PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
 
-target_link_libraries(Blocks2d PRIVATE SFML::Graphics SFML::Window SFML::System OpenGL::GL)
+target_link_libraries(Blocks2d PRIVATE
+    sfml-graphics
+    sfml-window
+    sfml-system
+    OpenGL::GL
+    )
+
+
 
 add_custom_command(TARGET Blocks2d POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
@@ -31,4 +53,3 @@ add_custom_command(TARGET Blocks2d POST_BUILD
     "$<TARGET_FILE_DIR:Blocks2d>/res"
     COMMENT "Copying resources to build directory..."
 )
-

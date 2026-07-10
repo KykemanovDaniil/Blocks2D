@@ -22,13 +22,13 @@ public:
     }
 
     void update(float deltaTime) noexcept;
+    void interpolate(float interpolationFactor) noexcept;
     
-    void draw(sf::RenderTarget& target) const {
-        m_shape.setPosition(m_position);
-        target.draw(m_shape);
-    }
+    void draw(sf::RenderTarget& target) const;
 private:
-    sf::Vector2f m_position{0.0f, 0.0f};
+    sf::Vector2f m_previousPosition;
+    sf::Vector2f m_position;
+    sf::Vector2f m_visualPosition;
     float m_speed{900.0f};
 
     mutable sf::RectangleShape m_shape;

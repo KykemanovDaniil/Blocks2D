@@ -13,7 +13,7 @@
 
 int main() {
     sf::RenderWindow window(sf::VideoMode({Config::windowW, Config::windowH}), "Blocks2d");
-    window.setFramerateLimit(Config::windowFps);
+    window.setVerticalSyncEnabled(true); 
 
     initBlockData();
     initWallData();
@@ -62,6 +62,10 @@ int main() {
         while (tickManager.checkTick()) {
             player.update(tickManager.getTimePerTick());
         }
+
+        float alpha = tickManager.getInterpolationFactor();
+        player.interpolate(alpha);
+
 
         float zoomSpeed = 3.5f; 
 

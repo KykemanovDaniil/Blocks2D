@@ -8,10 +8,11 @@ public:
     void restart() noexcept;
     void update() noexcept;
     
-    [[nodiscard]] bool checkTick() noexcept;
+    bool checkTick() noexcept;
 
     constexpr float getTimePerTick() const noexcept { return TIME_PER_TICK; }
     float getLastDeltaTime() const noexcept { return m_lastDeltaTime; }
+    float getInterpolationFactor() const noexcept;
 
 private:
     sf::Clock m_clock;
